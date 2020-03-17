@@ -1,0 +1,7 @@
+#rename-plugin-dialog input[type=text] {
+    width: 25vw;
+}
+
+#rename-plugin-dialog .dlg-header {
+    background-image: url(../../images/settings.gif)
+}
