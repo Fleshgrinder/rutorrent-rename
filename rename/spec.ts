@@ -49,4 +49,8 @@ declare interface RuTorrentPlugin {
     removePaneFromStatusbar(id: string): void
     addPaneToCategory(id: string, name: string): void
     removePaneFromCategory(id: string): void
+
+    postJson(action: string, json: any): Promise<Response>
+    rename(id: string, name: string): Promise<Response>
+    remove(ids: string[]): Promise<Response>
 }

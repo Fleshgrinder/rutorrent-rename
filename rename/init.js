@@ -87,15 +87,15 @@
         torrentNameElement.focus()
     }
 
-    theWebUI.rename = function (id, name) {
-        return fetch(
-            plugin.path + 'rename.php',
-            {
-                method: 'POST',
-                body: new Blob([JSON.stringify({id: id, name: name})], {type: 'application/json'})
-            }
-        )
+    plugin.postJson = function (action, json) {
+        return fetch(plugin.path + action + '.php', {
+            method: 'POST',
+            body: new Blob([JSON.stringify(json)], {type: 'application/json'})
+        })
     }
+
+    plugin.rename = (id, name) => plugin.postJson('rename', {id: id, name: name})
+    plugin.remove = (ids) => plugin.postJson('remove', ids)
 
     theWebUI.renamePluginSubmit = () => {
         const id = torrentIdElement.value.trim()
@@ -106,7 +106,7 @@
                 input.disabled = true
             }
 
-            theWebUI.rename(id, name).then(r => {
+            plugin.rename(id, name).then(r => {
                 if (r.ok) {
                     names[id] = name
                     torrentElement.title = name
@@ -162,5 +162,23 @@
     const setValue = dxSTable.prototype.setValue
     dxSTable.prototype.setValue = function (row, col, val) {
         return setValue.call(this, row, col, col === 0 ? getName(row, val) : val)
+    }
+
+    const perform = theWebUI.perform
+    theWebUI.perform = function (cmd) {
+        if (cmd === 'remove') {
+            const ids = []
+            for (let id in theWebUI.tables.trt.obj.rowSel) {
+                if (theWebUI.tables.trt.obj.rowSel.hasOwnProperty(id) && theWebUI.tables.trt.obj.rowSel[id] === true) {
+                    ids.push(id)
+                }
+            }
+            plugin.remove(ids).then(r => {
+                if (!r.ok) {
+                    theWebUI.error(r.status, r.statusText)
+                }
+            })
+        }
+        perform.call(this, cmd)
     }
 })()

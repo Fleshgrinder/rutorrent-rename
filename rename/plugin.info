@@ -1,6 +1,6 @@
 plugin.description: This plugin allows you to rename torrents in the UI.
 plugin.author: Fleshgrinder
 plugin.help: https://github.com/Fleshgrinder/rutorrent-rename
-plugin.version: 0.01
+plugin.version: 0.02
 rtorrent.remote: error
 php.extensions.error: json
