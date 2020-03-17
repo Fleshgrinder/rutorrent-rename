@@ -130,7 +130,7 @@
         theWebUI.createMenu = function (e, id) {
             createMenu.call(this, e, id)
 
-            const action = isSingleTorrentSelected() ? `'theWebUI.renamePluginDialog("${theWebUI.dID}")'` : null
+            const action = isSingleTorrentSelected() ? `theWebUI.renamePluginDialog("${theWebUI.dID}")` : null
             theContextMenu.add(theContextMenu.get(theUILang.Details), [theUILang.Rename, action])
         }
     }
